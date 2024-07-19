@@ -6,8 +6,8 @@ from fuzzywuzzy import process
 import streamlit as st
 
 # Load the data
-movies = pd.read_csv("C:/Users/NAND/Desktop/data")
-ratings = pd.read_csv("C:/Users/NAND/Desktop/data")
+movies = pd.read_csv("https://github.com/thevikas02/Movies/blob/main/movies.csv")
+ratings = pd.read_csv("https://github.com/thevikas02/Movies/blob/main/ratings.csv")
 
 # Prepare the data
 movies_users = ratings.pivot(index='movieId', columns='userId', values='rating').fillna(0)
