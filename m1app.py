@@ -1,4 +1,3 @@
-
 import pandas as pd
 from scipy.sparse import csr_matrix
 from sklearn.neighbors import NearestNeighbors
@@ -6,8 +5,10 @@ from fuzzywuzzy import process
 import streamlit as st
 
 # Load the data
-movies = pd.read_csv("https://github.com/thevikas02/Movies/blob/main/movies.csv")
-ratings = pd.read_csv("https://github.com/thevikas02/Movies/blob/main/ratings.csv")
+# URL of the raw CSV file on GitHub
+movies_url = 'https://github.com/thevikas02/Movies/blob/main/movies.csv'
+ratings_url = 'https://github.com/thevikas02/Movies/blob/main/ratings.csv'
+
 # Read the movies CSV file
 try:
     movies = pd.read_csv(movies_url)
@@ -22,6 +23,9 @@ try:
 except Exception as e:
     st.write(f"Error loading ratings data: {e}")
 
+# Check if dataframes are loaded correctly
+if 'movies' not in locals() or 'ratings' not in locals():
+    st.stop()
 
 # Prepare the data
 movies_users = ratings.pivot(index='movieId', columns='userId', values='rating').fillna(0)
@@ -40,7 +44,7 @@ def recommender(movie_name, data, n=10):
     st.write('Rating:', ratings.loc[ratings['movieId'] == movie_id, 'rating'].mean())
     st.write('Searching for recommendations...')
     distances, indices = model.kneighbors(data[idx], n_neighbors=n)
-    recommended_movies = [(movies.loc[i, 'title'], ratings.loc[ratings['movieId'] == movies.loc[i, 'movieId'], 'rating'].mean()) for i in indices.flatten() if i != idx]
+    recommended_movies = [(movies.loc[movies['movieId'] == movies_users.index[i], 'title'].values[0], ratings.loc[ratings['movieId'] == movies_users.index[i], 'rating'].mean()) for i in indices.flatten() if i != idx]
     return recommended_movies
 
 # Streamlit UI
@@ -59,4 +63,3 @@ if user_input:
 
 # Run the Streamlit app
 # Command: streamlit run app.py
-
