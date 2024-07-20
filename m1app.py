@@ -8,6 +8,20 @@ import streamlit as st
 # Load the data
 movies = pd.read_csv("https://github.com/thevikas02/Movies/blob/main/movies.csv")
 ratings = pd.read_csv("https://github.com/thevikas02/Movies/blob/main/ratings.csv")
+# Read the movies CSV file
+try:
+    movies = pd.read_csv(movies_url)
+   # st.write("Movies data loaded successfully.")
+except Exception as e:
+    st.write(f"Error loading movies data: {e}")
+
+# Read the ratings CSV file
+try:
+    ratings = pd.read_csv(ratings_url)
+   # st.write("Ratings data loaded successfully.")
+except Exception as e:
+    st.write(f"Error loading ratings data: {e}")
+
 
 # Prepare the data
 movies_users = ratings.pivot(index='movieId', columns='userId', values='rating').fillna(0)
