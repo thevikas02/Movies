@@ -6,8 +6,8 @@ import streamlit as st
 
 # Load the data
 # URL of the raw CSV file on GitHub
-movies_url = 'https://github.com/thevikas02/Movies/blob/main/movies.csv'
-ratings_url = 'https://github.com/thevikas02/Movies/blob/main/ratings.csv'
+movies_url = 'movies.csv'
+ratings_url = 'ratings.csv'
 
 # Read the movies CSV file
 try:
